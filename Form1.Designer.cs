@@ -41,12 +41,12 @@ namespace BackgroundCheckEno
             this.label3 = new System.Windows.Forms.Label();
             this.FoundUserIdBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.FoundUserUsernameBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.FoundUserRegisteredBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.FoundUserDisplayNameBox = new System.Windows.Forms.TextBox();
             this.UpdateBlacklistsButton = new System.Windows.Forms.Button();
+            this.FoundUserUsernamesBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -144,19 +144,10 @@ namespace BackgroundCheckEno
             this.label4.Enabled = false;
             this.label4.Location = new System.Drawing.Point(506, 48);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 11;
-            this.label4.Text = "Username:";
+            this.label4.Text = "Usernames:";
             this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // FoundUserUsernameBox
-            // 
-            this.FoundUserUsernameBox.Enabled = false;
-            this.FoundUserUsernameBox.Location = new System.Drawing.Point(509, 64);
-            this.FoundUserUsernameBox.Name = "FoundUserUsernameBox";
-            this.FoundUserUsernameBox.Size = new System.Drawing.Size(120, 20);
-            this.FoundUserUsernameBox.TabIndex = 12;
-            this.FoundUserUsernameBox.TextChanged += new System.EventHandler(this.FoundUserUsernameBox_TextChanged);
             // 
             // label5
             // 
@@ -208,6 +199,15 @@ namespace BackgroundCheckEno
             this.UpdateBlacklistsButton.UseVisualStyleBackColor = true;
             this.UpdateBlacklistsButton.Click += new System.EventHandler(this.Button1_Click_1);
             // 
+            // FoundUserUsernamesBox
+            // 
+            this.FoundUserUsernamesBox.FormattingEnabled = true;
+            this.FoundUserUsernamesBox.Location = new System.Drawing.Point(509, 64);
+            this.FoundUserUsernamesBox.Name = "FoundUserUsernamesBox";
+            this.FoundUserUsernamesBox.Size = new System.Drawing.Size(120, 21);
+            this.FoundUserUsernamesBox.TabIndex = 18;
+            this.FoundUserUsernamesBox.SelectedIndexChanged += new System.EventHandler(this.FoundUserUsernamesBox_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AcceptButton = this.CheckButton;
@@ -215,12 +215,12 @@ namespace BackgroundCheckEno
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.FoundUserUsernamesBox);
             this.Controls.Add(this.UpdateBlacklistsButton);
             this.Controls.Add(this.FoundUserDisplayNameBox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.FoundUserRegisteredBox);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.FoundUserUsernameBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.FoundUserIdBox);
             this.Controls.Add(this.label3);
@@ -290,12 +290,12 @@ namespace BackgroundCheckEno
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox FoundUserIdBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox FoundUserUsernameBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox FoundUserRegisteredBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox FoundUserDisplayNameBox;
         private System.Windows.Forms.Button UpdateBlacklistsButton;
+        private System.Windows.Forms.ComboBox FoundUserUsernamesBox;
     }
 }
 

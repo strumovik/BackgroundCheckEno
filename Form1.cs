@@ -20,7 +20,8 @@ namespace BackgroundCheckEno
         static Dictionary<string, string> BlacklistedGroups = new Dictionary<string, string>();
         static List<string> BlacklistedKeywords = new List<string>();
         static List<string> RedFlags = new List<string>();
-        static string currentuser = null;
+        string currentuser = null;
+        string currentName = null;
         static RobloxApi robloxApi = new RobloxApi();
         static string ApplicationName = "EnoBackgroundCheck";
 
@@ -31,7 +32,6 @@ namespace BackgroundCheckEno
         }
         private Task UpdateBlacklists()
         {
-
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 ApiKey = "AIzaSyDlBUpqz5xAAVnmjnxavirmB958r1Bb2z4",
@@ -97,7 +97,7 @@ namespace BackgroundCheckEno
             UpdateBlacklistsButton.Enabled = false;
             FoundUserDisplayNameBox.Clear();
             FoundUserRegisteredBox.Clear();
-            FoundUserUsernameBox.Clear();
+            FoundUserUsernamesBox.Items.Clear();
             FoundUserIdBox.Clear();
             listView1.Clear();
             RedFlags.Clear();
@@ -195,7 +195,16 @@ namespace BackgroundCheckEno
             var player = await robloxApi.GetPlayerByIdAsync(id);
             FoundUserIdBox.Text = player.Id;
             FoundUserDisplayNameBox.Text = player.DisplayName;
-            FoundUserUsernameBox.Text = player.Name;
+            var previousnames = new List<string>();
+            var results = await robloxApi.SearchForPlayerAsync(player.Name);
+            var result = results.FirstOrDefault(x => x.Id == player.Id);
+            currentName = player.Name;
+            foreach (var name in result.PreviousUsernames)
+            {
+                FoundUserUsernamesBox.Items.Add(name);
+            }
+            FoundUserUsernamesBox.Items.Add(player.Name);
+            FoundUserUsernamesBox.Text = player.Name;
             FoundUserRegisteredBox.Text = player.Created.ToString();
             if (player.Created > DateTime.Now.AddYears(-1))
             {
@@ -314,6 +323,12 @@ namespace BackgroundCheckEno
         private void Label7_Click(object sender, EventArgs e)
         {
 
+        }
+
+        bool isSelectionHandled = true;
+        private void FoundUserUsernamesBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FoundUserUsernamesBox.Text = currentName;
         }
     }
 }
