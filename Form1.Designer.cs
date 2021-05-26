@@ -201,6 +201,8 @@ namespace BackgroundCheckEno
             // 
             // FoundUserUsernamesBox
             // 
+            this.FoundUserUsernamesBox.AllowDrop = true;
+            this.FoundUserUsernamesBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FoundUserUsernamesBox.FormattingEnabled = true;
             this.FoundUserUsernamesBox.Location = new System.Drawing.Point(509, 64);
             this.FoundUserUsernamesBox.Name = "FoundUserUsernamesBox";
