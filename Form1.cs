@@ -14,13 +14,13 @@ namespace BackgroundCheckEno
 {
     public partial class Form1 : Form
     {
-        static Dictionary<string, string> BlacklistedFriends = new Dictionary<string, string>();
-        static Dictionary<string, string> BlacklistedGroups = new Dictionary<string, string>();
-        static List<string> BlacklistedKeywords = new List<string>();
+        Dictionary<string, string> BlacklistedFriends = new Dictionary<string, string>();
+        Dictionary<string, string> BlacklistedGroups = new Dictionary<string, string>();
+        List<string> BlacklistedKeywords = new List<string>();
         string currentuser = null;
         string currentName = null;
         static RobloxApi robloxApi = new RobloxApi();
-        static string ApplicationName = "EnoBackgroundCheck";
+        string ApplicationName = "EnoBackgroundCheck";
 
         public Form1()
         {
@@ -330,9 +330,9 @@ namespace BackgroundCheckEno
         private void listView1_Click(object sender, EventArgs e)
         {
             int Index = 0;
-            if (this.listView1.SelectedItems.Count > 0)
+            if (listView1.SelectedItems.Count > 0)
             {
-                Index = this.listView1.SelectedItems[0].Index;
+                Index = listView1.SelectedItems[0].Index;
                 try
                 {
                     if (listView1.Items[Index].SubItems[1].Text.Trim() != "")
