@@ -47,6 +47,7 @@ namespace BackgroundCheckEno
             this.FoundUserDisplayNameBox = new System.Windows.Forms.TextBox();
             this.UpdateBlacklistsButton = new System.Windows.Forms.Button();
             this.FoundUserUsernamesBox = new System.Windows.Forms.ComboBox();
+            this.userProfileLinkLabel = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -210,6 +211,18 @@ namespace BackgroundCheckEno
             this.FoundUserUsernamesBox.TabIndex = 18;
             this.FoundUserUsernamesBox.SelectedIndexChanged += new System.EventHandler(this.FoundUserUsernamesBox_SelectedIndexChanged);
             // 
+            // userProfileLinkLabel
+            // 
+            this.userProfileLinkLabel.AutoSize = true;
+            this.userProfileLinkLabel.Enabled = false;
+            this.userProfileLinkLabel.Location = new System.Drawing.Point(570, 9);
+            this.userProfileLinkLabel.Name = "userProfileLinkLabel";
+            this.userProfileLinkLabel.Size = new System.Drawing.Size(59, 13);
+            this.userProfileLinkLabel.TabIndex = 19;
+            this.userProfileLinkLabel.TabStop = true;
+            this.userProfileLinkLabel.Text = "Profile Link";
+            this.userProfileLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // Form1
             // 
             this.AcceptButton = this.CheckButton;
@@ -217,6 +230,7 @@ namespace BackgroundCheckEno
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.userProfileLinkLabel);
             this.Controls.Add(this.FoundUserUsernamesBox);
             this.Controls.Add(this.UpdateBlacklistsButton);
             this.Controls.Add(this.FoundUserDisplayNameBox);
@@ -298,6 +312,7 @@ namespace BackgroundCheckEno
         private System.Windows.Forms.TextBox FoundUserDisplayNameBox;
         private System.Windows.Forms.Button UpdateBlacklistsButton;
         private System.Windows.Forms.ComboBox FoundUserUsernamesBox;
+        private System.Windows.Forms.LinkLabel userProfileLinkLabel;
     }
 }
 

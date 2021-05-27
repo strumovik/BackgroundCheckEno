@@ -1,14 +1,11 @@
 ﻿using BackgroundCheckEno.Properties;
-using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using RobloxApiWrapper;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -36,7 +33,7 @@ namespace BackgroundCheckEno
             {
                 ApiKey = "AIzaSyDlBUpqz5xAAVnmjnxavirmB958r1Bb2z4",
                 ApplicationName = ApplicationName
-            }); 
+            });
 
             String spreadsheetId = "131tK6-0kD9IY_11Hig4WImwxVXEk0mQZEk5QKwU0HPk";
             String range = "Users!A:C";
@@ -92,6 +89,9 @@ namespace BackgroundCheckEno
 
         private async void Button1_Click(object sender, EventArgs e)
         {
+            userProfileLinkLabel.LinkVisited = false;
+            userProfileLinkLabel.Links.Clear();
+            userProfileLinkLabel.Enabled = false;
             currentuser = null;
             CheckButton.Enabled = false;
             UpdateBlacklistsButton.Enabled = false;
@@ -136,8 +136,6 @@ namespace BackgroundCheckEno
                     return;
                 }
                 id = r.Id;
-
-
             }
             currentuser = id;
 
@@ -149,6 +147,8 @@ namespace BackgroundCheckEno
             UsernameBox.Clear();
             await LoadImage(id);
             CheckButton.Enabled = true;
+            userProfileLinkLabel.Links.Add(0, userProfileLinkLabel.Text.ToString().Length, "https://www.roblox.com/users/"+id+"/profile");
+            userProfileLinkLabel.Enabled = true;
             UpdateBlacklistsButton.Enabled = true;
         }
 
@@ -325,10 +325,15 @@ namespace BackgroundCheckEno
 
         }
 
-        bool isSelectionHandled = true;
         private void FoundUserUsernamesBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             FoundUserUsernamesBox.Text = currentName;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+            userProfileLinkLabel.LinkVisited = true;
         }
     }
 }
