@@ -81,7 +81,10 @@ namespace BackgroundCheckEno
             // 
             // listView1
             // 
+            this.listView1.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.listView1.HideSelection = false;
+            this.listView1.HotTracking = true;
+            this.listView1.HoverSelection = true;
             this.listView1.Location = new System.Drawing.Point(12, 168);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(776, 270);
@@ -89,6 +92,7 @@ namespace BackgroundCheckEno
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
+            this.listView1.Click += new System.EventHandler(this.listView1_Click);
             // 
             // pictureBox1
             // 

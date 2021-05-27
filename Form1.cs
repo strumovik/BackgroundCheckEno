@@ -5,6 +5,7 @@ using Google.Apis.Sheets.v4.Data;
 using RobloxApiWrapper;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +17,6 @@ namespace BackgroundCheckEno
         static Dictionary<string, string> BlacklistedFriends = new Dictionary<string, string>();
         static Dictionary<string, string> BlacklistedGroups = new Dictionary<string, string>();
         static List<string> BlacklistedKeywords = new List<string>();
-        static List<string> RedFlags = new List<string>();
         string currentuser = null;
         string currentName = null;
         static RobloxApi robloxApi = new RobloxApi();
@@ -100,7 +100,6 @@ namespace BackgroundCheckEno
             FoundUserUsernamesBox.Items.Clear();
             FoundUserIdBox.Clear();
             listView1.Clear();
-            RedFlags.Clear();
             pictureBox1.Image = null;
             string id;
             IReadOnlyCollection<RobloxSearchResult> results;
@@ -208,7 +207,8 @@ namespace BackgroundCheckEno
             FoundUserRegisteredBox.Text = player.Created.ToString();
             if (player.Created > DateTime.Now.AddYears(-1))
             {
-                RedFlags.Add("[🚩] Account is less than a year old");
+                listView1.Items.Add("[🚩] Account is less than a year old");
+                listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/"+id+"/profile");
             }
         }
 
@@ -222,8 +222,8 @@ namespace BackgroundCheckEno
         {
             if (BlacklistedFriends.ContainsKey(Id))
             {
-                string redflag = "[🚩] User is blacklisted";
-                RedFlags.Add(redflag);
+                listView1.Items.Add("[🚩] User is blacklisted");
+                listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/" + Id + "/profile");
             }
             var friends = await robloxApi.GetFriendsAsync(Id);
             foreach (var blacklistedId in BlacklistedFriends.Keys)
@@ -233,8 +233,8 @@ namespace BackgroundCheckEno
                     if (blacklistedId == friend.Id)
                     {
                         BlacklistedFriends.TryGetValue(blacklistedId, out string reason);
-                        string redflag = "[🚩] Player is friends with blacklisted user: " + friend.Name + ", with display name " + friend.DisplayName + " (" + reason + ")";
-                        RedFlags.Add(redflag);
+                        listView1.Items.Add("[🚩] Player is friends with blacklisted user: " + friend.Name + ", with display name " + friend.DisplayName + " (" + reason + ")");
+                        listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/" + friend.Id + "/profile");
                     }
                 }
             }
@@ -250,8 +250,8 @@ namespace BackgroundCheckEno
                     if (group.Id == blacklistedId)
                     {
                         BlacklistedGroups.TryGetValue(blacklistedId, out string reason);
-                        string redflag = "[🚩] Player is in a blacklisted group: " + group.Name + ", with rank there: " + group.RoleInGroup.Name + " (" + reason + ")";
-                        RedFlags.Add(redflag);
+                        listView1.Items.Add("[🚩] Player is in a blacklisted group: " + group.Name + ", with rank there: " + group.RoleInGroup.Name + " (" + reason + ")");
+                        listView1.Items[listView1.Items.Count-1].SubItems.Add("https://www.roblox.com/groups/"+group.Id);
                     }
                 }
 
@@ -263,8 +263,8 @@ namespace BackgroundCheckEno
             var groupsResult = await robloxApi.GetGroupAsync(groups);
             if (groupsResult == null)
             {
-                string redflag = "[🚩] user is in no groups";
-                RedFlags.Add(redflag);
+                listView1.Items.Add("[🚩] User is in no groups");
+                listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/"+currentuser+"/profile");
                 return;
             }
             foreach (var group in groupsResult)
@@ -273,28 +273,19 @@ namespace BackgroundCheckEno
                 {
                     if (group.Name.ToLower().Contains(keyword) | group.Description.ToLower().Contains(keyword))
                     {
-                        string redflag = "[🚩] Group: " + group.Name + " flagged for keyword: " + keyword;
-                        RedFlags.Add(redflag);
+                        listView1.Items.Add("[🚩] Group: " + group.Name + " flagged for keyword: " + keyword);
+                        listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/groups/" + group.Id);
                     }
                 }
             }
         }
         public Task Displayredflags()
         {
-            if (RedFlags.Count == 0)
+            if (listView1.Items.Count < 1)
             {
                 listView1.Items.Add("No red flags");
             }
-            else
-            {
-                listView1.GridLines = true;
-                foreach (string redflag in RedFlags)
-                {
-                    listView1.Items.Add(redflag);
-                }
-            }
             return Task.CompletedTask;
-
         }
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -334,6 +325,20 @@ namespace BackgroundCheckEno
         {
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
             userProfileLinkLabel.LinkVisited = true;
+        }
+
+        private void listView1_Click(object sender, EventArgs e)
+        {
+            int Index = 0;
+            if (this.listView1.SelectedItems.Count > 0)
+            {
+                Index = this.listView1.SelectedItems[0].Index;
+                if (listView1.Items[Index].SubItems[1].Text.Trim() != "")
+                {
+                    Console.WriteLine(listView1.Items[Index].SubItems[1].Text);
+                    Process.Start(listView1.Items[Index].SubItems[1].Text.Trim());
+                }
+            }
         }
     }
 }
