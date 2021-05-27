@@ -333,11 +333,18 @@ namespace BackgroundCheckEno
             if (this.listView1.SelectedItems.Count > 0)
             {
                 Index = this.listView1.SelectedItems[0].Index;
-                if (listView1.Items[Index].SubItems[1].Text.Trim() != "")
+                try
                 {
-                    Console.WriteLine(listView1.Items[Index].SubItems[1].Text);
-                    Process.Start(listView1.Items[Index].SubItems[1].Text.Trim());
+                    if (listView1.Items[Index].SubItems[1].Text.Trim() != "")
+                    {
+                        Process.Start(listView1.Items[Index].SubItems[1].Text.Trim());
+                    }
                 }
+                catch (Exception)
+                {
+
+                }
+                
             }
         }
     }
