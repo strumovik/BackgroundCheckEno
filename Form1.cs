@@ -226,6 +226,12 @@ namespace BackgroundCheckEno
                 listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/" + Id + "/profile");
             }
             var friends = await robloxApi.GetFriendsAsync(Id);
+            int minfriendcount = 20;
+            if (friends.Count <= minfriendcount)
+            {
+                listView1.Items.Add("[🚩] User has less than " + minfriendcount +" friends");
+                listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/" + Id + "/profile");
+            }
             foreach (var blacklistedId in BlacklistedFriends.Keys)
             {
                 foreach (var friend in friends)
