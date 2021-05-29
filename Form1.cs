@@ -16,26 +16,27 @@ namespace BackgroundCheckEno
     {
         Dictionary<string, string> BlacklistedFriends = new Dictionary<string, string>();
         Dictionary<string, string> BlacklistedGroups = new Dictionary<string, string>();
+        public static string spreadsheetId = "131tK6-0kD9IY_11Hig4WImwxVXEk0mQZEk5QKwU0HPk"; //change to use your own sheet
         List<string> BlacklistedKeywords = new List<string>();
         string currentuser = null;
         string currentName = null;
         static RobloxApi robloxApi = new RobloxApi();
         string ApplicationName = "EnoBackgroundCheck";
-
+        
         public Form1()
         {
             InitializeComponent();
+            Resources.LoadResources(this);
             UpdateBlacklists();
         }
         private Task UpdateBlacklists()
         {
             var service = new SheetsService(new BaseClientService.Initializer()
             {
-                ApiKey = "AIzaSyDlBUpqz5xAAVnmjnxavirmB958r1Bb2z4",
+                ApiKey = "AIzaSyDlBUpqz5xAAVnmjnxavirmB958r1Bb2z4", //change this if changing the sheet as well, go to https://console.cloud.google.com/apis/dashboard to generate one
                 ApplicationName = ApplicationName
             });
 
-            String spreadsheetId = "131tK6-0kD9IY_11Hig4WImwxVXEk0mQZEk5QKwU0HPk";
             String range = "Users!A:C";
             SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
@@ -75,7 +76,6 @@ namespace BackgroundCheckEno
 
             return Task.FromResult(true);
         }
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -227,9 +227,14 @@ namespace BackgroundCheckEno
             }
             var friends = await robloxApi.GetFriendsAsync(Id);
             int minfriendcount = 20;
-            if (friends.Count <= minfriendcount)
+            if (friends.Count < minfriendcount)
             {
                 listView1.Items.Add("[🚩] User has less than " + minfriendcount +" friends");
+                listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/" + Id + "/profile");
+            }
+            else if (friends.Count == minfriendcount)
+            {
+                listView1.Items.Add("[🚩] User has only " + minfriendcount + " friends");
                 listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/" + Id + "/profile");
             }
             foreach (var blacklistedId in BlacklistedFriends.Keys)
@@ -270,8 +275,8 @@ namespace BackgroundCheckEno
             if (groupsResult == null)
             {
                 listView1.Items.Add("[🚩] User is in no groups");
-                listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/"+currentuser+"/profile");
-                return;
+                 listView1.Items[listView1.Items.Count - 1].SubItems.Add("https://www.roblox.com/users/"+currentuser+"/profile");
+               return;
             }
             foreach (var group in groupsResult)
             {
